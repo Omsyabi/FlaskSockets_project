@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='room.css') }}">
+  <title>Rooms</title>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+    </div>
+    <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('tenant_page') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+
+    <a href="{{ url_for('about_page') }}">
+      <i class="fa fa-info-circle"></i> About
+    </a><br>
+  </div>
+
+  <header>
+    <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">🔥 Fire Alarm</a>
+  </header>
+
+  <div class="grid-container" aria-label="Room availability list">
+    {% for room in rooms %}
+    <div class="room-card {{ room.status }}">
+      <div class="room-title">
+        Room {{ room.room_number }}
+      </div>
+
+      <!-- Room Status -->
+      {% if room.status == "available" %}
+        <div class="status-circle available">
+          <div class="status-text">Available</div>
+        </div>
+      {% else %}
+        <div class="status-circle occupied">
+          <div class="status-text">Occupied</div>
+        </div>
+      {% endif %}
+
+      <!-- Show Info Button -->
+      <button class="info-btn"
+        onclick="openRoomModal(
+          '{{ room.room_number }}',
+          '{{ room.tenant.fullname if room.tenant else "" }}',
+          '{{ room.tenant.age if room.tenant else "" }}',
+          '{{ room.tenant.gender if room.tenant else "" }}',
+          '{{ room.tenant.contact_no if room.tenant else "" }}',
+          '{{ room.tenant.date_occupied if room.tenant else "" }}'
+        )">
+        Show Info
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ROOM INFO MODAL -->
+  <div id="roomModal" class="room-modal">
+    <div class="room-modal-content">
+      <span class="close-room" onclick="closeRoomModal()">&times;</span>
+      <h2 id="modalRoomTitle">Room Info</h2>
+      <div class="room-details">
+        <p><strong>Name:</strong> <span id="modalName"></span></p>
+        <p><strong>Age:</strong> <span id="modalAge"></span></p>
+        <p><strong>Gender:</strong> <span id="modalGender"></span></p>
+        <p><strong>Contact:</strong> <span id="modalContact"></span></p>
+        <p><strong>Date Occupied:</strong> <span id="modalDate"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function openRoomModal(room, name, age, gender, contact, date) {
+    document.getElementById("modalRoomTitle").innerText = "Room " + room + " Info";
+    document.getElementById("modalName").innerText = name || "No tenant";
+    document.getElementById("modalAge").innerText = age || "-";
+    document.getElementById("modalGender").innerText = gender || "-";
+    document.getElementById("modalContact").innerText = contact || "-";
+    document.getElementById("modalDate").innerText = date || "-";
+    document.getElementById("roomModal").style.display = "flex";
+  }
+
+  function closeRoomModal() {
+    document.getElementById("roomModal").style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const roomModal = document.getElementById("roomModal");
+    if (event.target == roomModal) {
+      roomModal.style.display = "none";
+    }
+  };
+  </script>
+
+  <a href="{{ url_for('room_page') }}" class="exit-btn">Exit</a>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://127.0.0.1:5000", {
+      transports: ["websocket"]
+    });
+  
+    socket.on("sensor_update", data => {
+      let popup = document.getElementById("fireOverlay");
+      console.log("Received:", data);
+
+
+      if (data.status === "FIRE") {
+        window.location.href="{{url_for('alert')}}";
+      }
+    });
+  </script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  const socket = io("http://127.0.0.1:5000", {
+    transports: ["websocket"]
+  });
+
+  socket.on("sensor_update", data => {
+    let popup = document.getElementById("fireOverlay");
+    console.log("Received:", data);
+
+    // Show overlay when fire detected
+    if (data.status === "FIRE") {
+      window.location.href="{{url_for('alert')}}";
+    }
+  });
+</script>
+</body>
+</html>

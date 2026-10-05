@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='tenantsinfo.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <title>Tenants Informationn</title>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+  </div>
+  <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('save_tenants') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+
+    <a href="{{ url_for('about_page') }}">
+      <i class="fa fa-info-circle"></i> About
+    </a><br>
+  </div>
+
+
+  <header>
+    <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">
+  🔥 Fire Alarm</a>
+    
+  
+</header>
+  <main class="content">
+    <table>
+        <tr>
+          <th>Full Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>Contact No</th>
+          <th>Room No</th>
+          <th>Price</th>
+          <th>Date Occupied</th>
+          <th>Actions</th>
+        </tr>
+      
+        {% for row in std %}
+        <tr>
+          <td>{{ row['fullname'] }}</td>
+          <td>{{ row['age'] }}</td>
+          <td>{{ row['gender'] }}</td>
+          <td>{{ row['address'] }}</td>
+          <td>{{ row['contact_no'] }}</td>
+          <td>{{ row['room_number'] }}</td>
+          <td>{{ row['room_price'] }}</td>
+          <td>{{ row['date_occupied'] }}</td>
+          <td>
+            <a href="{{ url_for('edit_tenant', tenant_id=row['tenant_id']) }}" title="Edit">
+              <i class="fa fa-edit" style="color:blue;"></i>
+            </a>
+            &nbsp;
+            <a href="{{ url_for('delete_tenant', tenant_id=row['tenant_id']) }}" title="Delete" onclick="return confirm('Are you sure you want to delete this tenant?');">
+              <i class="fa fa-trash" style="color:red;"></i>
+            </a>
+          </td>
+          
+        </tr>
+        {% endfor %}
+      </table>
+      
+  </main>
+</div>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  const socket = io("http://127.0.0.1:5000", {
+    transports: ["websocket"]
+  });
+
+  socket.on("sensor_update", data => {
+    let popup = document.getElementById("fireOverlay");
+    console.log("Received:", data);
+
+    // Show overlay when fire detected
+    if (data.status === "FIRE") {
+      window.location.href="{{url_for('alert')}}";
+    }
+  });
+</script>
+</body>
+</html>

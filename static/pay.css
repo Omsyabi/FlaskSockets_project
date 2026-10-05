@@ -1,0 +1,372 @@
+body {
+  font-family: "Lato", sans-serif;
+  background-color: rgb(17, 8, 8);
+  margin: 0;
+  padding: 0;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 180px;
+  right: 0;
+  height: 60px;
+  background-color: #2b0000;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  z-index: 2;
+}
+.menu-btn:hover{
+  background-color: #660000;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 180px;
+  height: 100%;
+  background-color: rgb(42, 4, 4);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 3;
+}
+
+.sidebar-header {
+  background-color: #2b0000;
+  text-align: center;
+  padding: 15px 10px;
+  border-bottom: 2px solid #240707;
+}
+
+.sidebar-header h1 {
+  margin: 0;
+  font-size: 26px;
+  color: #e50914;
+  letter-spacing: 2px;
+}
+
+.sidebar a, .dropbtn {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px 20px;
+  display: block;
+}
+
+.sidebar a:hover, .dropbtn:hover {
+  background-color: #660000;
+  color: white;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  background-color: #1a0000;
+  flex-direction: column;
+  border-left: 2px solid #660000;
+  margin-left: 10px;
+}
+
+.dropdown:focus-within .dropdown-content {
+  display: flex;
+}
+
+.dropdown-content a {
+  padding: 8px 30px;
+  font-size: 15px;
+  color: #bbb;
+}
+
+.dropdown-content a:hover {
+  color: #ff3333;
+}
+
+.dashbox h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.main {
+  margin-left: 180px;
+  padding: 20px;
+}
+.main form {
+  margin-top: 15%;
+  text-align: left;
+}
+
+details {
+  background-color: #1a0000;
+  border: 1px solid #660000;
+  border-radius: 4px;
+  padding: 10px 15px;
+  width: 15%;
+  color: white;
+  margin-bottom: 30px;
+  margin-top: 90px;
+  margin-left: 35px;
+}
+
+details summary {
+  font-size: 22px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+details summary i {
+  margin-right: 8px;
+  color: green;
+}
+
+details[open] summary {
+  color: lightgreen;
+}
+
+.form-container {
+  margin-top: 15px;
+  text-align: left;
+}
+.modal-title {
+  font-size: 35px;
+  font-weight: bold;
+  color: #12e70a;   /* ✅ ensures visibility on white background */
+  text-align: center;
+}
+
+.form-container input[type="text"],
+.form-container input[type="date"],
+.form-container input[type="submit"] {
+  width: 100%;
+  max-width: 300px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #2b0000;
+  color: white;
+}
+
+.form-container input[type="submit"] {
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-container input[type="submit"]:hover {
+  background-color: darkgreen;
+}
+
+
+details summary{
+  cursor: pointer; font-size: 18px; color: green;
+  
+}
+
+table {
+  width: 95%;
+  border-collapse: collapse;
+  background-color: #1c1f26;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1%;
+  margin-left: 30px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #2a2f3a;
+}
+
+th {
+  background-color: #11141a;
+  color: #e63946;
+}
+td{
+  color: rgb(221, 211, 211);
+}
+
+.main-container {
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center; /* centers the content wrapper */
+  
+}
+
+/* Content wrapper for button + table */
+.content-wrapper {
+  width: 850px; /* align width of table and button */
+}
+
+/* Add Payment Button */
+.add-payment-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 2px;
+  margin-top: 80px;
+  margin-left: 30px;
+}
+
+.add-payment-btn:hover {
+  background-color: #45a049;
+}
+
+/* Modal Overlay */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 00%;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Form Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* Submit Button */
+.submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 150px;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+/* Tenant Table aligned with Add Payment Button */
+.tenant-table {
+  width: 80%;
+  border-collapse: collapse;
+  background: #1c1f26;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-left: 50px;
+  cursor: pointer;
+}
+
+.tenant-table th,
+.tenant-table td {
+  padding:13px 15px;
+  text-align: left;
+  border-bottom: 1px solid #2a2f3a;
+}
+
+.tenant-table th {
+  background-color: #11141a;
+  font-weight: 10;
+  color: #e63946;
+}
+
+.tenant-table tr:hover {
+  background-color: rgba(43, 0, 0, 0.6);
+  
+}
+
+/* Status Badges */
+.status {
+  font-weight: bold;
+  padding-top: 15px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.status.paid {
+  color: #0bf70b;
+}
+
+.status.overpaid {
+  color: #007bff;
+}
+
+.status.pending {
+  color: #ea081e;
+}
+
+
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+}

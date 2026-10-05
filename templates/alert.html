@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <title></title>
+</head>
+<body>
+  <main>
+    <div id="fireOverlay" class="overlay">
+        <div class="fire-popup">
+            <h2>🚨 FIRE ALERT</h2>
+            <p>Please evacuate immediately!</p>
+            <a href="{{ url_for('dash_page') }}" class="fire-btn" onclick="closeFireAlert()">OK</a>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+      const socket = io("http://127.0.0.1:5000", {
+        transports: ["websocket"]
+      });
+    
+      socket.on("sensor_update", data => {
+        let popup = document.getElementById("fireOverlay");
+        console.log("Received:", data);
+    
+        // Show overlay when fire detected
+        if (data.status === "FIRE") {
+          popup.style.display = "flex";
+        }
+      });
+    </script>
+    
+  
+    <script>
+        // Show the fire alert automatically when the page loads
+        window.onload = function() {
+            document.getElementById("fireOverlay").style.display = "flex";
+        }
+  
+        function closeFireAlert() {
+            document.getElementById("fireOverlay").style.display = "none";
+        }
+    </script>
+  </main>
+</body>
+</html>

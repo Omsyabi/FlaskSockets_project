@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='room.css') }}">
+  <title>Rooms</title>
+</head>
+<header>
+<div id="fireOverlay" class="overlay" style="display:none;">
+  <div class="fire-popup">
+    <h2>🚨 FIRE ALERT</h2>
+    <p>Please evacuate immediately!</p>
+    <a href="{{ url_for('dash_page') }}" class="fire-btn" onclick="closeFireAlert()">OK</a>
+  </div>
+</div>
+</header>
+
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+  </div>
+  <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('tenant_page') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+
+    <a href="{{ url_for('about_page') }}">
+      <i class="fa fa-info-circle"></i> About
+    </a><br>
+  </div>
+  
+
+  <div class="grid-container" aria-label="Room availability list">
+    {% for room in rooms %}
+    <div class="room-card {{ room.status }}" tabindex="0" aria-labelledby="room-{{ room.room_number }}-label">
+  
+      <div class="room-title" id="room-{{ room.room_number }}-label">
+        Room {{ room.room_number }}
+      </div>
+  
+      {% if room.status == "available" %}
+      <div class="status-circle available">
+        <svg class="checkmark" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <div class="status-text">Available</div>
+      </div>
+      {% else %}
+      <div class="status-circle occupied">
+        <svg class="crossmark" viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+        <div class="status-text">Occupied</div>
+      </div>
+      {% endif %}
+  
+      
+      <form method="get" action="{{ url_for('room_page') }}#room-{{ room.room_number }}">
+        <input type="hidden" name="room" value="{{ room.room_number }}">
+        <a href="{{ url_for('room_page') }}">
+          <button type="submit" class="info-btn">Show Info</button>
+        </a>
+        
+      </form>
+      
+      
+      <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+      <script>
+        const socket = io("http://127.0.0.1:5000", {
+          transports: ["websocket"]
+        });
+      
+        socket.on("sensor_update", data => {
+          let popup = document.getElementById("fireOverlay");
+          console.log("Received:", data);
+      
+          // Show overlay when fire detected
+          if (data.status === "FIRE") {
+            popup.style.display = "flex";
+          }
+        });
+      </script>
+  </body>
+  </html>

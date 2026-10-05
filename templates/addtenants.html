@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='addtenants.css') }}">
+  <title>Add Tenant</title>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+  </div>
+  <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('save_tenants') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+
+    <a href="{{ url_for('about_page') }}">
+      <i class="fa fa-info-circle"></i> About
+    </a><br>
+  </div>
+  
+  <header>
+    <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">
+  🔥 Fire Alarm</a>
+</header>
+ 
+  <div class="main">
+    <div class="form-container">
+      <form action="{{ url_for('add_tenants') }}" method="post">
+        <h3>Tenant Information</h3>
+  
+        <input type="text" name="fullname" placeholder="Full Name" required>
+        <input type="number" name="age" placeholder="Age" required>
+        <input type="text" name="gender" placeholder="Gender" required>
+        <input type="text" name="address" placeholder="Address" required>
+        <input type="text" name="contact_no" placeholder="Contact Number" required>
+        <input type="text" name="room_number" placeholder="Room Number" required>
+        <input type="number" step="0.01" name="room_price" placeholder="Room Price" required>
+        <input type="date" name="date_occupied" required>
+  
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

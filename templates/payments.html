@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payments</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='pay.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+</head>
+<body>
+  
+  <header>
+    <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">
+  🔥 Fire Alarm</a>
+    
+  
+</header>
+
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+  </div>
+  <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('save_tenants') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+    
+    <a href="{{ url_for('about_page') }}">
+      <i class="fa fa-info-circle"></i> About
+    </a><br>
+  </div>
+
+  <div class="main">
+
+    <!-- Add Payment Button -->
+    <button class="add-payment-btn" onclick="openPaymentForm()">+ Add Payment</button>
+  
+    <!-- Popup Form Modal -->
+<!-- Popup Form Modal -->
+<div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closePaymentForm()">&times;</span>
+    <h2 class="modal-title">Add Payment</h2>
+    <form method="POST" action="/addpayments">
+      
+      <!-- Tenant Dropdown -->
+      <div class="form-group">
+        <label for="tenant_id">Tenant:</label>
+        <select name="tenant_id" id="tenant_id" required>
+          <option value="" disabled selected>Select a tenant</option>
+          {% for tenant in tenants %}
+            <option value="{{ tenant.tenant_id }}">
+              {{ tenant.fullname }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Payment Date -->
+      <div class="form-group">
+        <label for="payment_date">Payment Date:</label>
+        <input type="date" name="payment_date" id="payment_date" required>
+      </div>
+
+      <!-- Payment Amount -->
+      <div class="form-group">
+        <label for="payment_amount">Payment Amount:</label>
+        <input type="number" name="payment_amount" id="payment_amount" step="0.01" placeholder="Enter amount" required>
+      </div>
+
+      <button type="submit" class="submit-btn">Add Payment</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openPaymentForm() {
+    document.getElementById("paymentModal").style.display = "flex";
+  }
+  
+  function closePaymentForm() {
+    document.getElementById("paymentModal").style.display = "none";
+  }
+  
+  // Optional: close modal if clicked outside
+  window.onclick = function(event) {
+    const modal = document.getElementById("paymentModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+
+  
+  
+ <!-- Tenant Table (outside modal) -->
+ <table class="tenant-table">
+  <thead>
+    <tr>
+      <th>Tenant Name</th>
+      <th>Room No</th>
+      <th>Room Price</th>
+      <th>Total Paid</th>
+      <th>Remaining Balance</th>
+      <th>Overpaid</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for tenant in tenants %}
+<tr>
+  <td>{{ tenant.fullname }}</td>
+  <td>{{ tenant.room_number }}</td>
+  <td>{{ tenant.room_price }}</td>
+  <td>{{ tenant_balances[tenant.tenant_id].total_paid }}</td>
+  <td>{{ tenant_balances[tenant.tenant_id].remaining_balance }}</td>
+  <td>{{ tenant_balances[tenant.tenant_id].overpaid }}</td>
+  <td>
+    <span class="status {{ tenant_balances[tenant.tenant_id].status | lower }}">
+      {{ tenant_balances[tenant.tenant_id].status }}
+    </span>
+  </td>
+</tr>
+{% endfor %}
+
+
+
+
+    
+
+
+
+    
+    
+
+  </tbody>
+</table>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  const socket = io("http://127.0.0.1:5000", {
+    transports: ["websocket"]
+  });
+
+  socket.on("sensor_update", data => {
+    let popup = document.getElementById("fireOverlay");
+    console.log("Received:", data);
+
+    // Show overlay when fire detected
+    if (data.status === "FIRE") {
+      window.location.href="{{url_for('alert')}}";
+    }
+  });
+</script>
+
+</body>
+</html>

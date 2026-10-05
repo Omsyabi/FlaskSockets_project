@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <title>Dashboard</title>
+    
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+    </div><br>
+
+    <a href="{{ url_for('dash_page') }}"><i class="fa fa-dashboard"></i> Dashboard</a><br>
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('save_tenants') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+    <a href="{{ url_for('room_page') }}"><i class="fa fa-hotel"></i> Rooms</a><br>
+    <a href="{{ url_for('payment_page') }}"><i class="fa fa-credit-card"></i> Payment</a><br>
+    <a href="{{ url_for('about_page') }}"><i class="fa fa-info-circle"></i> About</a><br>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">🔥 Fire Alarm</a>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <!-- Dropdown menu -->
+    <div id="menuDropdown" class="menu-dropdown">
+      <a href="#" class="settings-btn" onclick="openSettingsModal()">
+        <i class="fa fa-cog"></i> Settings
+      </a>
+      <a href="{{ url_for('logout') }}" class="logout-btn" onclick="return confirmLogout()">
+        <i class="fa fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+  </header>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeSettingsModal()">&times;</span>
+      <h2>Edit Website Name</h2>
+      <form method="POST" action="{{ url_for('admin_settings') }}">
+        <label for="website_name">Website Name:</label>
+        <input type="text" class="webname" id="website_name" name="website_name" value=" {{ website_name }}">
+        <button type="submit" class="save">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard content -->
+  <div class="dashboard-container">
+    <a href="{{ url_for('save_tenants') }}" class="dashbox">
+      <i class="fa-solid fa-users"></i>
+      <h3>All Tenants</h3>
+    </a>
+    <a href="{{ url_for('room_page') }}" class="dashbox">
+      <i class="fa-solid fa-house"></i>
+      <h3>Total Rooms</h3>
+    </a>
+    <a href="{{ url_for('payment_page') }}" class="dashbox">
+      <i class="fa fa-credit-card"></i>
+      <h3>Payments</h3>
+    </a>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    function toggleMenu() {
+      var menu = document.getElementById("menuDropdown");
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+    function confirmLogout() {
+      return confirm("Are you sure you want to logout?");
+    }
+    function openSettingsModal() {
+      document.getElementById("settingsModal").style.display = "block";
+    }
+    function closeSettingsModal() {
+      document.getElementById("settingsModal").style.display = "none";
+    }
+    window.onclick = function(event) {
+      var modal = document.getElementById("settingsModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    const socket = io("http://127.0.0.1:5000", {
+      transports: ["websocket"]
+    });
+  
+    socket.on("sensor_update", data => {
+      let popup = document.getElementById("fireOverlay");
+      console.log("Received:", data);
+
+      // Show overlay when fire detected
+      if (data.status === "FIRE") {
+        window.location.href="{{url_for('alert')}}";
+      }
+    });
+  </script>
+
+</body>
+</html>

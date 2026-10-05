@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payments</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='pay.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+</head>
+<body>
+  
+  <header>
+    <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">
+  🔥 Fire Alarm</a>
+</header>
+
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+  </div>
+  <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('save_tenants') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+    
+    <a href="{{ url_for('about_page') }}">
+      <i class="fa fa-info-circle"></i> About
+    </a><br>
+  </div>
+
+  <div class="main">
+
+    <h2>Payment History</h2>
+
+<table class="table table-dark">
+<tr>
+<th>Month</th>
+<th>Amount</th>
+<th>Date</th>
+</tr>
+
+{% for p in history %}
+<tr>
+<td>{{ p.payment_month }}</td>
+<td>{{ p.payment_amount }}</td>
+<td>{{ p.payment_date }}</td>
+</tr>
+{% endfor %}
+
+</table>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+</head>
+<header>
+    <h1>SAKARA</h1>
+    <button onclick="myFunction()">FIRE ALARM</button>
+<script>
+function myFunction() {
+  alert("FIRE IN THE BUILDING");
+}
+</script>
+</header>
+<body>
+    
+
+    <div class="sidebar">
+        <h2 class="sidebar-title">JARA</h2>
+
+        <a href="{{ url_for('dash_page') }}"><i class="fa fa-dashboard"></i> Dashboard</a><br>
+        <a href="{{ url_for('tenant_page') }}"><i class="fa fa-fw fa-user"></i> Tenants</a><br>
+        <a href="{{ url_for('room_page') }}"><i class="fa fa-hotel"></i> Rooms</a><br>
+        <a href="{{ url_for('payment_page') }}"><i class="fa fa-credit-card"></i> Payment</a><br>
+      </div>
+
+      <div class="dashbox">
+        <div class="box">All Tenants</div>
+        <div class="box">Occupied Rooms</div>
+        <div class="box">Available Rooms</div>
+      </div>
+      
+</body>
+
+     
+</body>
+</html> 

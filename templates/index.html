@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ website_name }} Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Modal background */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background: #1c1f26;
+            color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            animation: slideDown 0.3s ease;
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #fff;
+        }
+
+        /* Slide-down animation */
+        @keyframes slideDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-content input, .modal-content button {
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        .modal-content button {
+            background: #e50914;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background: #b20710;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h1>{{ website_name }}</h1>
+            <p>Management System</p>
+            <form action="/login" method="post">
+                <input type="text" name="userinp" placeholder="Username" required>
+                <input type="password" name="passinp" id="password" placeholder="Password" required>
+                <label class="left-align">
+                    <input type="checkbox" onclick="togglePassword()"> Show Password
+                </label><br><br>              
+                <input type="submit" value="Login">
+            </form>
+
+            <br>
+            <p>Don't have an account?</p>
+            <!-- Trigger modal -->
+            <button type="button" onclick="openRegisterModal()" class="create-btn">Create Account</button>
+
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeRegisterModal()">&times;</span>
+      <h2>Create Account</h2>
+      <form action="/register_account" method="post">
+        <input type="text" name="userinp" placeholder="Username" required>
+        
+        <!-- Password field -->
+        <input type="password" name="passinp" id="registerPassword" placeholder="Password" required>
+        
+        <!-- Show password checkbox -->
+        <label>
+          <input type="checkbox" onclick="toggleRegisterPassword()" class="showpass"> Show Password
+        </label>
+        
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+  
+
+    <script>
+        function togglePassword() {
+            var x = document.getElementById("password");
+            x.type = (x.type === "password") ? "text" : "password";
+        }
+        
+         function toggleRegisterPassword() {
+            var x = document.getElementById("registerPassword");
+            x.type = (x.type === "password") ? "text" : "password";
+         }
+        function openRegisterModal() {
+            document.getElementById("registerModal").style.display = "block";
+        }
+        function closeRegisterModal() {
+            document.getElementById("registerModal").style.display = "none";
+        }
+        window.onclick = function(event) {
+            var modal = document.getElementById("registerModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

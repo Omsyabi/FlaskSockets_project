@@ -1,0 +1,221 @@
+
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1185px; 
+    margin-left: 14%;
+    margin-top: 5%;
+   
+  }
+
+  .room-card {
+    background: #33353bc7;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    box-shadow:0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.8rem 1rem 2.5rem;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .room-info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #2e1b1b;
+   color: rgb(213, 191, 191);
+    border-radius: 4px;
+  }
+
+  .edit-btn{
+    border-radius: 4px;
+    padding: 3px;
+    margin-top: 7px;
+    background-color: gray;
+  }
+  .edit-btn:hover{
+    background-color: pink;
+  }
+  .num{
+    border-radius: 4px;
+    padding: 3px;
+  }
+  .save:hover{
+    background-color: green;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  /* ROOM MODAL BACKGROUND */
+.room-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* MODAL BOX */
+.room-modal-content {
+  background: #1c1f26;
+  padding: 30px;
+  border-radius: 12px;
+  width: 350px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* MODAL TITLE */
+.room-modal-content h2 {
+  margin-bottom: 20px;
+  color: #ff8fa3;
+}
+
+/* INFO TEXT */
+.room-details p {
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+/* CLOSE BUTTON */
+.close-room {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.close-room:hover {
+  color: #ff4d6d;
+}
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  .room-card:target {
+    display: block;
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: #b32d2d;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  
+  
+  
+  .room-card:hover {
+    border-color: #78c0e0;
+    transform: translateY(-5px);
+  }
+
+  .room-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.15rem;
+    color: rgb(240, 176, 210);
+  }
+
+  .status-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    position: relative;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+
+  .status-circle.available {
+    background: linear-gradient(145deg, #43e97b, #38f9d7); 
+    color: #10592a;
+  }
+
+  .status-circle.occupied {
+    background: linear-gradient(135deg, #e52d27, #b31217); 
+    color: #fff0f0;
+  }
+
+  .status-text {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: inherit;
+  }
+
+  .checkmark {
+    width: 33px;
+    height: 33px;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .crossmark {
+    width: 33px;
+    height: 33px;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .stamp {
+    position: absolute;
+    top: 8px;
+    right: -30px;
+    transform: rotate(-40deg);
+    background: rgba(255, 255, 255, 0.2);
+    color: #e63946;
+    padding: 4px 32px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 3px solid #e63946;
+    border-radius: 8px;
+    text-shadow: 0 0 2px #a32a2a;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .info-btn {
+    margin-top: 1.5rem;
+    background-color: #691a21;
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 14px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.4s ease;
+    user-select: none;
+  }
+
+  .info-btn:hover,
+  .info-btn:focus {
+    background: linear-gradient(45deg, #c31e3f, #66060c);
+  }

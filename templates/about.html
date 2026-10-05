@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+  <title>About</title>
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ website_name }}</h1>
+  </div>
+  <br>
+
+    <a href="{{ url_for('dash_page') }}">
+      <i class="fa fa-dashboard"></i> Dashboard
+    </a><br>
+
+    <div class="dropdown">
+      <a href="#" class="dropbtn"><i class="fa fa-fw fa-user"></i> Tenants ▾</a>
+      <div class="dropdown-content">
+        <a href="{{ url_for('add_tenants') }}">➕ Add Tenant</a>
+        <a href="{{ url_for('save_tenants') }}">📋 Tenants Info</a>
+      </div>
+    </div><br>
+
+    <a href="{{ url_for('room_page') }}">
+      <i class="fa fa-hotel"></i> Rooms
+    </a><br>
+
+    <a href="{{ url_for('payment_page') }}">
+      <i class="fa fa-credit-card"></i> Payment
+    </a><br>
+
+    <a href="{{ url_for('about_page') }}">
+        <i class="fa fa-info-circle"></i> About
+      </a><br>
+  </div>
+
+<header>
+  <a href="{{ url_for('alert') }}" class="fire-btn" onclick="FireAlarm()">
+🔥 Fire Alarm</a>
+</header>
+
+
+<main>
+    <h2>About Us</h2>
+    <p>We are a company that specializes in boarding house management systems. Our logo, derived from the first names of the founders Stephanie, Andrea, Kishia, Alicia, and Ray Allen represents the teamwork and collaboration behind SAKARA. Designed exclusively for landlords, our system simplifies tenant, room, and payment management, making property oversight easier and more efficient.</p>
+</main>
+
+<div class="team-container">
+  <div class="team-member">
+    <img src="{{ url_for('static', filename='assets_img/step.jpeg') }}" alt="Stephanie" />
+    <h3>Stephanie Daine R. Paderna</h3>
+  </div>
+  <div class="team-member">
+    <img src="{{ url_for('static', filename='assets_img/andrea.jpg') }}" alt="Andrea" />
+    <h3>Andrea Jane C. Ataza</h3>
+  </div>
+    <div class="team-member">
+      <img src="{{ url_for('static', filename='assets_img/kisia.jpeg') }}" alt="Kishia" />
+      <h3>Kishia Jane C. Cabañero</h3>
+    </div>
+    <div class="team-member">
+      <img src="{{ url_for('static', filename='assets_img/ali.jpg') }}" alt="Alicia" />
+      <h3>Alicia Key G. Pastilloso</h3>
+    </div>
+    <div class="team-member">
+      <img
+        src="{{ url_for('static', filename='assets_img/allen.jpeg') }}" alt="Allen"
+      />
+      <h3>Ray Allen B. Montaño</h3>
+    </div>
+    
+  </div>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script>
+  const socket = io("http://127.0.0.1:5000", {
+    transports: ["websocket"]
+  });
+
+  socket.on("sensor_update", data => {
+    let popup = document.getElementById("fireOverlay");
+    console.log("Received:", data);
+
+    // Show overlay when fire detected
+    if (data.status === "FIRE") {
+      window.location.href="{{url_for('alert')}}";
+    }
+  });
+</script>
+
+</body>
+</html>
